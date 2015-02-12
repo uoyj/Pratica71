@@ -1,8 +1,9 @@
+import java.util.Collections;
 import java.util.List;
+import java.util.LinkedList;
 import java.util.Scanner;
 import utfpr.ct.dainf.if62c.pratica.Jogador;
 import utfpr.ct.dainf.if62c.pratica.JogadorComparator;
-import utfpr.ct.dainf.if62c.pratica.Time;
 
 /**
  * UTFPR - Universidade Tecnológica Federal do Paraná
@@ -14,44 +15,79 @@ import utfpr.ct.dainf.if62c.pratica.Time;
  */
 public class Pratica71 {
     public static void main(String[] args) {
-        Time time = new Time();
+        List<Jogador> lista = new LinkedList<>();
         Scanner sc = new Scanner(System.in);
         int qtd, num;
         String nome;
         
         System.out.println("Quantos jogadores?");
         if(sc.hasNextInt()) qtd = sc.nextInt();
-        else qtd = 0;
+        else
+        {
+            qtd = 0;
+            sc.next();
+        }
+        
+        if(qtd == 0) lista.add(new Jogador(0, "Vazio"));
         
         for(Integer i=0; i<qtd; i++)
         {
+            System.out.println("Num: ");
             if(sc.hasNextInt())
-            {
+            {               
                 num = sc.nextInt();
+                System.out.println("Nome: ");
                 nome = sc.next();
+                lista.add(new Jogador(num, nome));
             }
             else
             {
+                System.out.println("String");
                 num = 0;
                 nome = "Vazio";
+                sc.next();
+                lista.add(new Jogador(num, nome));
             }
-            time.addJogador(i.toString(), new Jogador(num, nome));
-        }
-        
-        /*String format = "%-20s %-20s";
-        System.out.println(String.format(format, "Posição", "Time 1"));
-        for (String posicao: time.getJogadores().keySet()) {
-            Jogador j1 = time.getJogadores().get(posicao);
-            System.out.println(String.format(format, posicao, j1));
-        }*/
-        
-        List<Jogador> lista = time.ordena(new JogadorComparator(true, true, false));
-        
-        for(Jogador j : lista)
-        {
-            System.out.println(j.toString());
-        }
             
+        }      
+        
+        Collections.sort(lista, new JogadorComparator(true, true, true));
+
+        for(Jogador j : lista)
+            System.out.println(j.toString());
+        
+        Integer i = 0;
+
+        while(true)
+        {
+            System.out.println("Num: ");
+            if(sc.hasNextInt())
+            {
+                num = sc.nextInt();
+                if(num == 0) break;
+                else
+                {
+                    System.out.println("Nome: ");
+                    nome = sc.next();
+                    lista.add(new Jogador(num, nome));
+                }
+            }
+            else
+            {
+                System.out.println("String");
+                num = 0;
+                nome = "Vazio";
+                sc.next();
+                lista.add(new Jogador(num, nome));
+            }
+            
+            Collections.sort(lista, new JogadorComparator(true, true, true));
+            
+            for(Jogador j : lista)
+                System.out.println(j.toString());
+            
+            i++;
+        }
         
     }
         
